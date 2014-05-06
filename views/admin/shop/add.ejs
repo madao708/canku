@@ -1,0 +1,55 @@
+<% include ../header %>
+<div class="well">
+  <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+    <div class="control-group">
+      <label class="control-label" for="name">名称</label>
+
+      <div class="controls">
+        <input type="text" name="name" id="name">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="address">地址</label>
+
+      <div class="controls">
+        <input type="text" name="address" id="address">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tel">电话</label>
+
+      <div class="controls">
+        <input type="tel" name="tel" id="tel">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" class="control-label" for="categories">分类</label>
+
+      <div class="controls">
+        <textarea name="categories" class="span7" id="categories" cols="30" rows="3"></textarea>
+        <div>
+          <b>格式：</b>数字编号#分类名|数字编号#分类名<br/>
+          <b>例如：</b>1#商务套餐|2#营养套餐|3#其它
+        </div>
+      </div>
+
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tel">样式</label>
+
+      <div class="controls">
+        <textarea name="css" id="css" class="span7" rows="4"></textarea>
+        <div>
+          <p><b>一行两列：</b>.food-list li {width: 269px;} .food-list li:nth-child(even) {margin-right: 0; float:right;}</p>
+          <p><b>一行三列：</b>.food-list li:nth-child(3n) {margin-right: 0;} </p>
+        </div>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <button class="btn btn-primary" type="submit">添加店铺</button>
+      </div>
+    </div>
+  </form>
+</div>
+<% include ../footer %>

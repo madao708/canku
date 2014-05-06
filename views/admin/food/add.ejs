@@ -1,0 +1,121 @@
+<% include ../header %>
+<h2>在【<a href="/shop/<%=shop._id%>" target="_blank"><%=shop.name%></a>】中添加美食</h2>
+<div class="">
+  <div class="row">
+    <div class="span5">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>分类</th>
+          <th>菜名儿</th>
+          <th>价格</th>
+          <th>时间</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% foods.forEach(function(food){%>
+        <tr>
+          <td><%=food.category%></td>
+          <td><%=food.name%></td>
+          <td><%=food.price%> 元</td>
+          <td><%=week[food.week]%></td>
+          <td><a href="/admin/food/edit/<%=food._id%>" target="_blank">编辑</a>|<a food-id="<%=food._id%>" id="deleteFood" href="javascript:void(0)" >删除</a></td>
+        </tr>
+        <% })%>
+        </tbody>
+      </table>
+    </div>
+    <div class="span5 well">
+      <form method="POST">
+        <div class="item">
+          <label for="name">名称</label>
+          <input type="text" name="name" id="name">
+        </div>
+        <div class="item">
+          <label for="price">价格</label>
+          <input type="text" name="price" id="price">
+        </div>
+        <div class="item">
+          <label for="week">星期</label>
+          <select name="week" id="week">
+            <option selected="true" value="-1">全部</option>
+            <option value="1">星期一</option>
+            <option value="2">星期二</option>
+            <option value="3">星期三</option>
+            <option value="4">星期四</option>
+            <option value="5">星期五</option>
+            <option value="6">星期六</option>
+            <option value="0">星期日</option>
+          </select>
+        </div>
+        <div class="item">
+          <label for="categories">分类</label>
+          <select name="categories" id="categories">
+            <%
+            var categories = shop.categories.split('|');
+            for(var key in categories){
+            %>
+            <option value="<%=categories[key]%>"><%=categories[key]%></option>
+            <%}%>
+          </select>
+        </div>
+        <div class="item">
+          <label>&nbsp;</label>
+          <button type="submit" class="btn btn-primary">添加美食</button>
+        </div>
+        <div class="item">
+          <input type="hidden" name="id" value="<%=shop._id%>">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close cancel" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">删除菜谱</h3>
+    </div>
+    <div class="modal-body">
+      <p>确定删除这盘菜？</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary sure">确定</button>
+      <button class="btn btn-danger cancel" data-dismiss="modal" aria-hidden="true">取消</button>
+      
+    </div>
+  </div>
+  <script>
+  //监听删除食谱的按钮
+  $("#deleteFood").live('click', function() {
+    var id = $(this).attr("food-id");
+    var that = $(this);
+    //弹出选择是否删除窗口
+    $('#myModal').modal({
+          keyboard: true,
+          show: true,
+          backdrop: true
+        });
+    //管理员取消
+    $(".cancel").live('click',function() {
+        return ;
+    })
+    //管理员确定则执行删除操作
+    $(".sure").live('click',function() {
+      $("#myModal").hide();
+      $.ajax({
+        url: '/admin/food/delete/' + id,
+        type: 'GET',
+        data: { timeStamp:new Date().getTime() },
+        error: function(){
+          alert('网络错误，请联系管理员');
+        },
+        success: function(data){
+          that.closest("tr").remove();
+        }
+      })
+    })     
+  })
+  </script>
+<% include ../footer %>

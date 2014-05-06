@@ -1,0 +1,44 @@
+<% include ../header %>
+<div class="wap columns clearfix">
+  <%if(typeof locals.session.user.email == "undefined"){%>
+  <div class="tip">即将推出账户冲值功能，为了确保你的帐号安全，请填写邮箱地址，用于找回密码、重要安全功能。<a href="/user/account">马上去补全吧！</a></div>
+  <%}%>
+  <div class="left">
+    <section class="fav clearfix">
+      <% orders.forEach(function(item){ %>
+      <table class="myorder" cellpadding="0" cellspacing="0" id="order-<%=item._id%>">
+        <tbody>
+        <tr class="hd-row">
+          <td colspan="6"><%=item.time%> 在<a href="/shop/<%=item.shop_id%>"> <%=item.shop_name%> </a>购买的清单
+          </td>
+        </tr>
+        <% for(var i = 0; i < item.order.length; i++){%>
+        <tr>
+          <td class="shop_name-td"><%=item.order[i].name%></td>
+          <td class="price-td"><%=item.order[i].price%>元</td>
+          <td class="num-td"><%=item.order[i].num%>份</td>
+          <% if(i==0&item.order.length==1){%>
+          <td class="total-td">共计 <%=item.total%> 元</td>
+          <td class="meta-td">无备注</td>
+          <%}else if(i==0&item.order.length>1){%>
+          <td rowspan="<%=item.order.length%>" class="total-td">共计 <%=item.total%> 元</td>
+          <td rowspan="<%=item.order.length%>" class="meta-td">无备注</td>
+          <%}%>
+        </tr>
+        <%}%>
+        </tbody>
+      </table>
+      <% }) %>
+    </section>
+  </div>
+  <div class="right">
+    <div class="block">
+      <ul class="setting">
+        <li><a href="/user/order">› 我的订单</a></li>
+        <li><a href="/user/balance">› 账户余额</a></li>
+        <li><a href="/user/account">› 账户设置</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<% include ../footer %>
