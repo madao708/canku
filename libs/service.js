@@ -2,6 +2,7 @@ var util = require('../libs/util.js');
 var db = require('../global.js').database;
 var dateformat = require('dateformat');
 var _ = require('underscore');
+var moment = require('moment');
 
 
 // bind mongodb collection
@@ -9,22 +10,14 @@ db.bind('shop');
 db.bind('food');
 db.bind('order');
 
+ 
 
 /**
  * get today order
  */
 exports.getToday = function (cb) {
-  var h = (new Date(util.getUTC8Time()).getHours());
-  var start_t = '';
-  var end_t = '';
-  if (h < 15) {
-    start_t = dateformat(new Date(), 'yyyy-mm-dd ') + "00:00:00";
-    end_t = dateformat(new Date(), 'yyyy-mm-dd ') + "15:00:00";
-  } else {
-    start_t = dateformat(new Date(), 'yyyy-mm-dd ') + "15:00:00";
-    end_t = dateformat(new Date(new Date().getTime() + 24 * 60 * 60 * 1000), 'yyyy-mm-dd ') + "00:00:00";
-  }
-
+  var start_t = util.todayStart();
+  var end_t = util.todayEnd();
   //根据时间范围进行查找
   db.order.find({time: {$gt: start_t, $lt: end_t}}).toArray(function (err, orders) {
     if (!err) {

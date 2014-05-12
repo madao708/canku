@@ -14,6 +14,17 @@ moment.timezoneOffset = function (zone) {
   return moment().add('minutes', diff);
 };
 
+exports.todayStart = function () {
+  var start_t = moment().format('YYYY-MM-DD 00:00:00');
+  return start_t;
+};	
+
+	
+exports.todayEnd = function () {
+	  var end_t = moment().format('YYYY-MM-DD 23:59:59');
+	  return end_t;
+};		
+
 /**
  * md5 hash
  *
