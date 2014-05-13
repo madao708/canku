@@ -24,13 +24,33 @@
         %>
         <div>
           <div class="cat-title"><span><%=item.name%></span></div>
-          <ul>
+          <table id="today-list" class="today-tb data" cellpadding="0" cellspacing="0">
+            <thead>
+	          <tr>
+	            <th class="name">餐名</th>
+	            <th class="food">金额</th>
+	            <th class="random">人气值</th>
+	          </tr>
+	        </thead>
+	        <tbody>
             <% item.foods.forEach(function(food){%>
-            <li id="food-<%=food._id%>" data-id="<%=food._id%>" data-name="<%=food.name%>"
+            <tr id="food-<%=food._id%>" data-id="<%=food._id%>" data-name="<%=food.name%>"
                 data-price="<%=food.price%>">
-              <%=food.name%><em><%=food.price%> 元</em></li>
+              <td><%=food.name%></td>
+              <td><%=food.price%></td>
+              <%
+		        if(food.book>0){
+		      %>
+              <td class="luck"><div class="bar" style="width:<%=food.book%>px"><%=food.book%></div></td>
+              <% }
+              else{
+              %>
+              <td class="luck"><div style="width:<%=food.book%>px"><%=food.book%></div></td>
+              <% }%>
+            </tr>
             <% })%>
-          </ul>
+            <tbody>
+          </table>
           <div class="clearfix"></div>
         </div>
         <% })}%>

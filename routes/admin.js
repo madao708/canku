@@ -105,13 +105,15 @@ exports.food_add = function (req, res) {
     var price = req.body.price;
     var week = req.body.week;
     var category = req.body.categories;
+    var book = 0;
 
     var food = {
       'name': name,
       'price': price,
       'shop_id': shop_id,
       'week': week,
-      'category': category
+      'category': category,
+      'book': book
     };
 
     db.food.insert(food, function (err, result) {

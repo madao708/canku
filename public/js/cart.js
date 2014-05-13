@@ -44,7 +44,7 @@
   $('.del_btn').click(del_food);
 
 
-  $('.food-list ul li').click(function () {
+  $('.food-list tbody tr').click(function () {
     var el = $(this);
     if (el.hasClass('checked')) {//已经选中-> 取消
       el.removeClass('checked');

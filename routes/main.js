@@ -123,6 +123,17 @@ exports.submit_order = function (req, res) {
     payStatus: 'deafult'
   }, function (err, result) {
     if (!err) {
+    
+      //增加食品热度	
+      for (var i in order_list) {
+		  db.food.findOne({"_id": db.ObjectID.createFromHexString(order_list[i].id)}, function (err, food) {
+		    food.book = parseInt(food.book) + parseInt(order_list[i].num);
+		    delete food._id;
+		    db.food.update({"_id": db.ObjectID.createFromHexString(order_list[i].id)}, {'$set': food}, function (err) {
+		    });
+		  });
+      }
+
       console.log(result);
       res.send('{"result":"success","luck":"' + luck + '"}');
     } else {
